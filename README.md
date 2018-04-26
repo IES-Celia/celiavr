@@ -11,6 +11,10 @@ WebVR is an open specification that makes it possible to experience VR in your b
 
 * [How to configure WebVR in Google Chrome for Android][3]
 
+## Demo
+
+![](resources/celiavr.gif)
+
 ## References
 
 * [WebVR][1]
