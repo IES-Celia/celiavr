@@ -66,6 +66,33 @@ found in the LICENSE file.
   <body>
     <canvas id="webgl-canvas"></canvas>
     <script>
+      /* Images for the scenes */
+      var scenes = {
+        current: 0,
+        images: [
+          "media/textures/p0p9f4.jpg",
+          "media/textures/p0p4f2.jpg",
+          "media/textures/p0p0.jpg",
+          "media/textures/p0p1.jpg",
+          "media/textures/p0p1f1.jpg",
+          "media/textures/p0p1f2.jpg",
+          "media/textures/p0p2.jpg",
+          "media/textures/p0p3.jpg",
+          "media/textures/p0p4.jpg",
+          "media/textures/p0p4f2.jpg",
+          "media/textures/p0p8f1.jpg"          
+          ],
+        getNext: function (){
+          let next = this.images[this.current++];
+
+          if (this.current >= this.images.length) {
+            this.current = 0;
+          }
+          
+          return next;
+        }
+      };
+
       /* global mat4, vec3, VRPanorama, WGLUStats, VRSamplesUtil */
       (function () {
       "use strict";
@@ -121,10 +148,7 @@ found in the LICENSE file.
         gl.enable(gl.CULL_FACE);
 
         panorama = new VRPanorama(gl);
-        //panorama.setImage("media/textures/pano_4k.jpg");
-        //panorama.setImage("media/textures/p0p0.jpg");
-        //panorama.setImage("media/textures/p0p4f2.jpg");
-        panorama.setImage("media/textures/p0p9f4.jpg");
+        panorama.setImage(scenes.getNext());
 
         var enablePerformanceMonitoring = WGLUUrl.getBool(
             'enablePerformanceMonitoring', false);
@@ -226,6 +250,21 @@ found in the LICENSE file.
         }
       }
 
+      // ================================
+      // Begin - Controller
+      // ================================
+
+      function onClick () {
+        // Load the next scene
+        panorama.setImage(scenes.getNext());
+      }
+      VRSamplesUtil.addVRClickListener(onClick);
+      webglCanvas.addEventListener("click", onClick, false);
+
+      // ================================
+      // End - Controller
+      // ================================
+
       function getPoseMatrix (out, pose) {
         // When rendering a panorama ignore the pose position. You want the
         // users head to stay centered at all times. This would be terrible
@@ -285,6 +324,8 @@ found in the LICENSE file.
         stats.end();
       }
       })();
+
+      
     </script>
   </body>
 </html>
